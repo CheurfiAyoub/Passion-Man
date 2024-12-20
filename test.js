@@ -43,7 +43,7 @@ const client = new Client({
 });
 
 // Token de ton bot
-const token = "MTMxODk3MzA3ODY3OTg1MTA3OA.GfxxsF.YtbmHzeCbTPzIAshlp8QBSllRLccF0E9JwCqB4";
+const token = process.env.BOT_TOKEN;
 
 
 // Charger le fichier des rappels
