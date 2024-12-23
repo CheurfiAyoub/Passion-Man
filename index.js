@@ -316,7 +316,7 @@ client.on("messageCreate", async (message) => {
             });
 
             await ticketChannel.send({
-                content: `Salut <@${message.author.id}> ! Un modérateur <@&1293249770541944937> va bientôt répondre à ton ticket.`,
+                content: `Salut <@${message.author.id}> ! Un <@&1293249770541944937> va bientôt répondre à ton ticket.`,
             });
 
             message.reply(`Ton ticket a été créé avec succès ! Un modérateur te répondra bientôt dans ton canal privé.`);
