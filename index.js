@@ -68,8 +68,8 @@ function saveReminders() {
 }
 
 // Constantes
-const FIRST_DELAY = 3 * 60 * 1000; // 3 jours en millisecondes
-const SECOND_DELAY = 5 * 60 * 1000; // 5 jours supplémentaires en millisecondes
+const FIRST_DELAY = 3 * 24 * 60 * 60 * 1000; // 3 jours en millisecondes
+// const SECOND_DELAY = 5 * 24 * 60 * 60 * 1000; // 5 jours supplémentaires en millisecondes
 
 // Quand le bot est prêt
 client.once('ready', () => {
@@ -93,11 +93,6 @@ client.on('guildMemberAdd', (member) => {
         messageType: "Arrivée sur le serveur"
     });
     saveLogs();
-
-    // // Envoyer un message privé
-    // member.send(`Salut ${member.user.username} , c’est Passions Jobs ! 👋\n\nOn a vu que tu n’as pas encore rejoint complètement notre serveur...`)
-    //     .then(() => console.log(`Premier message envoyé à ${member.user.tag}`))
-    //     .catch(err => console.error(`Impossible d’envoyer un MP à ${member.user.tag} : ${err}`));
     
     // Programmer un rappel dans 3 jours
     const firstReminder = Date.now() + FIRST_DELAY;
@@ -116,14 +111,16 @@ function checkRoles(member, isFirstReminder) {
         // Envoyer un message privé
         member.send(`Salut ${member.user.username} , c’est Passions Jobs ! 👋
 
-On a vu que tu n’as pas encore rejoint complètement notre serveur, du coup tu n’as pas accès à nos conseils pour t’aider dans ta recherche d’emploi. Est-ce que tu as bien reçu le formulaire pour t’inscrire ?`)
+On a vu que tu n’as pas encore rejoint complètement notre serveur, du coup tu n’as pas accès à nos conseils pour t’aider dans ta recherche d’emploi. Est-ce que tu as bien reçu le formulaire pour t’inscrire ?
+
+Si besoin, je suis là pour t’aider ! Tu n'as qu'a écrire "!help"🚀`)
             .then(() => console.log(`Premier message envoyé à ${member.user.tag}`))
             .catch(err => console.error(`Impossible d’envoyer un MP à ${member.user.tag} : ${err}`));
 
-        if (isFirstReminder) {
-            // Planifier le second rappel
-            setTimeout(() => checkRoles(member, false), SECOND_DELAY - FIRST_DELAY);
-        }
+        // if (isFirstReminder) {
+        //     // Planifier le second rappel
+        //     setTimeout(() => checkRoles(member, false), SECOND_DELAY - FIRST_DELAY);
+        // }
     } else if (!isFirstReminder) {
         console.log(`${member.user.tag} a obtenu un rôle entre-temps.`);
     }
@@ -175,7 +172,9 @@ client.on('messageCreate', async (message) => {
                     try {
                         await member.send(`Salut ${member.user.username} 👋,
 
-Nous avons remarqué que tu n'as pas encore de rôle sur le serveur **${guild.name}**. Si tu veux accéder à toutes les fonctionnalités et ressources, pense à compléter les étapes nécessaires ! 😊`);
+Nous avons remarqué que tu n'as pas encore de rôle sur le serveur **${guild.name}**. Si tu veux accéder à toutes les fonctionnalités et ressources, pense à compléter le formulaire ! 
+
+Si tu as besoin d'aide je reste disponible 😊. Tu n'as qu'a écrire "!help"`);
 
                         // Ajouter un log pour chaque message envoyé via la commande
                         logs.push({
@@ -255,7 +254,7 @@ client.on("messageCreate", async (message) => {
     if (message.content === "!help") {
         try {
             // Envoie le message d'aide en DM
-            await message.author.send("Voici les commandes disponibles :\n\n- `!help` : Affiche ce message d'aide.\n- `!ticket` : Crée un ticket pour demander de l'aide.");
+            await message.author.send("Voici les commandes disponibles :\n\n- `!help` : Affiche ce message d'aide.\n- `!ticket` : Crée un ticket sur le serveur pour demander de l'aide.");
             
             // Répond dans le chat pour confirmer l'envoi
             message.channel.send(`${message.author}, je t'ai envoyé le message d'aide en DM ! 📬`);
@@ -284,13 +283,13 @@ client.on("messageCreate", async (message) => {
 
     if (message.content.toLowerCase().includes("ticket")) {
         try {
-            const guild = client.guilds.cache.get('809422974036869180'); // ID du serveur
+            const guild = client.guilds.cache.get('1291657071443443784'); // ID du serveur
             if (!guild) {
                 message.reply("Je n'ai pas pu trouver le serveur. Veuillez vérifier la configuration.");
                 return;
             }
 
-            const category = guild.channels.cache.get('1319599460497625110'); // ID de la catégorie
+            const category = guild.channels.cache.get('1320682977914650624'); // ID de la catégorie
             if (!category) {
                 message.reply("Désolé, le système de tickets est actuellement désactivé.");
                 return;
@@ -317,7 +316,7 @@ client.on("messageCreate", async (message) => {
             });
 
             await ticketChannel.send({
-                content: `Salut <@${message.author.id}> ! Un modérateur <@&1318948441295949917> va bientôt répondre à ton ticket.`,
+                content: `Salut <@${message.author.id}> ! Un modérateur <@&1293249770541944937> va bientôt répondre à ton ticket.`,
             });
 
             message.reply(`Ton ticket a été créé avec succès ! Un modérateur te répondra bientôt dans ton canal privé.`);

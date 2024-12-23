@@ -1,3 +1,4 @@
+require('dotenv').config();
 const { Client, GatewayIntentBits, PermissionsBitField, Partials } = require('discord.js');
 const fs = require('fs');
 const { DateTime } = require('luxon'); // Import de luxon
