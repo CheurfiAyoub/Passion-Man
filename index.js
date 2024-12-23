@@ -247,6 +247,37 @@ client.on("messageCreate", async (message) => {
         message.channel.send(text);
     }
 
+    //Commande : !link
+    if (message.content === '!link') {
+        if (!message.member.permissions.has(PermissionsBitField.Flags.Administrator)) {
+            return message.reply("🚫 Vous n'avez pas la permission d'utiliser cette commande.");
+        }
+            message.channel.send("https://tally.so/r/n0JxdQ");
+
+    }
+
+    // Vérifie que le message est dans un serveur et non en DM
+    if (!message.guild) return;
+
+    // Vérifie que la commande est bien !close
+    if (message.content.toLowerCase() === '!close') {
+        // Vérifie si le salon appartient à un ticket
+        if (message.channel.name.startsWith('ticket-')) {
+            // Confirme la suppression du salon
+            await message.channel.send('Le ticket sera fermé dans 5 secondes.').then(() => {
+                setTimeout(() => {
+                    message.channel.delete().catch(err => {
+                        console.error("Erreur lors de la suppression du ticket :", err);
+                        message.channel.send("Je n'ai pas pu fermer ce ticket. Vérifie mes permissions.");
+                    });
+                }, 5000); // 5 secondes avant suppression
+            });
+        } else {
+            // Si la commande est utilisée dans un salon qui n'est pas un ticket
+            message.reply("Ce salon n'est pas un ticket. Vous ne pouvez pas le fermer avec cette commande.");
+        }
+    }
+
     // Commande : !help
     // Vérifie que le message n'est pas envoyé par un bot
     if (message.author.bot) return;
